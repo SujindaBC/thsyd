@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "617757405334",
+    "project_id": "thsyd-c22f7",
+    "storage_bucket": "thsyd-c22f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617757405334:android:f6ff9dfa736c45652d92b7",
+        "android_client_info": {
+          "package_name": "com.example.thsyd"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDldKl9OKW19oLo5n0MGeVc_GC3aHBX5yU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
