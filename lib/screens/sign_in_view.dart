@@ -25,11 +25,27 @@ class SignInView extends StatelessWidget {
                 },
               ),
               SignInButton(
-                Buttons.facebook,
-                onPressed: () {
-                  context.read<FacebookSignInCubit>().signInWithFacebook();
-                },
+                Buttons.apple,
+                onPressed: () {},
               ),
+              const Text("or"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SignInButton(
+                    Buttons.facebook,
+                    mini: true,
+                    onPressed: () {
+                      context.read<FacebookSignInCubit>().signInWithFacebook();
+                    },
+                  ),
+                  SignInButton(
+                    Buttons.twitter,
+                    mini: true,
+                    onPressed: () {},
+                  ),
+                ],
+              )
             ],
           ),
         ),

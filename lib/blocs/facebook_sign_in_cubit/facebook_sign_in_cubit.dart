@@ -11,12 +11,24 @@ class FacebookSignInCubit extends Cubit<FacebookSignInState> {
   }) : super(FacebookSignInState.initial());
 
   Future<void> signInWithFacebook() async {
-    emit(state.copyWith(status: FacebookSignInStateStatus.submitted));
+    emit(
+      state.copyWith(
+        status: FacebookSignInStateStatus.submitted,
+      ),
+    );
     try {
       await authRepository.signInWithFacebook();
-      emit(state.copyWith(status: FacebookSignInStateStatus.succeed));
+      emit(
+        state.copyWith(
+          status: FacebookSignInStateStatus.succeed,
+        ),
+      );
     } catch (error) {
-      emit(state.copyWith(status: FacebookSignInStateStatus.error));
+      emit(
+        state.copyWith(
+          status: FacebookSignInStateStatus.error,
+        ),
+      );
     }
   }
 }
