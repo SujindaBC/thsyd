@@ -24,10 +24,10 @@ class SignInView extends StatelessWidget {
                   context.read<GoogleSignInCubit>().signInWithGoogle();
                 },
               ),
-              SignInButton(
-                Buttons.apple,
-                onPressed: () {},
-              ),
+              // SignInButton(
+              //   Buttons.apple,
+              //   onPressed: () {},
+              // ),
               const Text("or"),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -39,11 +39,11 @@ class SignInView extends StatelessWidget {
                       context.read<FacebookSignInCubit>().signInWithFacebook();
                     },
                   ),
-                  SignInButton(
-                    Buttons.twitter,
-                    mini: true,
-                    onPressed: () {},
-                  ),
+                  // SignInButton(
+                  //   Buttons.twitter,
+                  //   mini: true,
+                  //   onPressed: () {},
+                  // ),
                 ],
               )
             ],
