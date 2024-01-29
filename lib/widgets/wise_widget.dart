@@ -1,8 +1,9 @@
+import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,7 +25,7 @@ class _WiseWidgetState extends State<WiseWidget> {
     }
   }
 
-  Future<void> getRate() async {
+  Future<void> getWiseRate() async {
     final wiseKey = dotenv.get("WISE_KEY");
     try {
       final response = await http.get(
@@ -35,10 +36,45 @@ class _WiseWidgetState extends State<WiseWidget> {
           "Content-Type": "application/json",
         },
       );
-      log(response.body);
+      if (response.statusCode == 200) {
+        final List<dynamic> responseData = jsonDecode(response.body);
+        if (responseData.isNotEmpty) {
+          final String rate = responseData[0]["rate"].toString();
+          final String source = responseData[0]["source"].toString();
+          final String target = responseData[0]["target"].toString();
+          final String apiDateTimeString = responseData[0]["time"].toString();
+          final DateTime apiDateTime = DateTime.parse(apiDateTimeString);
+          final String formattedDateTime =
+              DateFormat('yyyy-MM-dd HH:mm:ss').format(apiDateTime);
+          log("Exchange rate: 1 $source/$rate $target, Time: $formattedDateTime");
+        }
+      }
     } catch (error) {
       log("$error", error: error);
     }
+  }
+
+  Future<String> getRate() async {
+    final wiseKey = dotenv.get("WISE_KEY");
+    try {
+      final response = await http.get(
+        _wiseApi,
+        headers: {
+          "Authorization": "Bearer $wiseKey",
+          "Host": _wiseApi.host,
+          "Content-Type": "application/json",
+        },
+      );
+      if (response.statusCode == 200) {
+        final List<dynamic> responseData = jsonDecode(response.body);
+        if (responseData.isNotEmpty) {
+          return responseData[0]["rate"].toString();
+        }
+      }
+    } catch (error) {
+      log("$error", error: error);
+    }
+    return "Error"; // Return an error message or handle it accordingly
   }
 
   @override
@@ -50,36 +86,49 @@ class _WiseWidgetState extends State<WiseWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("You send exactly"),
-            const SizedBox(height: 4),
-            const TextField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(12.0),
-                ),
-              )),
-            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                const Text("Today rate"),
+                const Spacer(),
                 SvgPicture.network(
                   "https://wise.com/web-art/assets/flags/aud.svg",
                   width: 24,
                   height: 24,
                 ),
-                const SizedBox(width: 8),
-                Text(
-                  "AUD",
-                  style: Theme.of(context).textTheme.titleMedium,
+                const SizedBox(width: 4),
+                const Icon(
+                  Icons.currency_exchange,
+                  size: 16,
                 ),
-                const SizedBox(width: 8),
-                const Icon(Icons.currency_exchange)
+                const SizedBox(width: 4),
+                SvgPicture.network(
+                  "https://wise.com/web-art/assets/flags/thb.svg",
+                  width: 24,
+                  height: 24,
+                ),
               ],
             ),
-            Text(
-              "Title data ชื่อเรื่อง",
-              style: Theme.of(context).textTheme.titleMedium,
+            const SizedBox(height: 4),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "1 AUD = ",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                FutureBuilder(
+                  initialData: 0.00,
+                  builder: (context, snapshot) {
+                    return Text(
+                      "${snapshot.data} THB",
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                    );
+                  },
+                  future: getRate(),
+                ),
+              ],
             ),
             Center(
               child: FilledButton(

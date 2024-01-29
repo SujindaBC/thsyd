@@ -12,7 +12,10 @@ import 'package:thsyd/firebase_options.dart';
 import 'package:thsyd/repositories/auth_repository.dart';
 import 'package:thsyd/screens/account_view.dart';
 import 'package:thsyd/screens/auth_gate.dart';
+import 'package:thsyd/screens/create_post.dart';
 import 'package:thsyd/screens/home_view.dart';
+import 'package:thsyd/screens/housemate.dart';
+import 'package:thsyd/screens/jobhub.dart';
 import 'package:thsyd/screens/main_view.dart';
 import 'package:thsyd/screens/sign_in_view.dart';
 
@@ -70,6 +73,9 @@ class MyApp extends StatelessWidget {
             SignInView.routeName: (context) => const SignInView(),
             MainView.routeName: (context) => const MainView(),
             HomeView.routeName: (context) => const HomeView(),
+            CreatePost.routeName: (context) => const CreatePost(),
+            JobHub.routeName: (context) => const JobHub(),
+            HouseMate.routeName: (context) => const HouseMate(),
           },
         ),
       ),
