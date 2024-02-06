@@ -11,6 +11,9 @@
         android:label="thsyd"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6272836017246600~2901472803"/>
 
         <meta-data 
             android:name="com.facebook.sdk.ApplicationId" 
